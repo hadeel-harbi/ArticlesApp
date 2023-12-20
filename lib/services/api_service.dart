@@ -1,5 +1,6 @@
 import 'package:articles_app/models/article.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
   Future<List<Article>> getArticles({int period = 1}) async {
@@ -8,7 +9,7 @@ class ApiService {
       final response = await dio.get(
         'https://api.nytimes.com/svc/mostpopular/v2/viewed/$period.json',
         queryParameters: {
-          "api-key": "CjoIumfiqzxdTN1dG1rTg5XDzWEch31C",
+          "api-key": dotenv.env['API_KEY'],
         },
       );
 
