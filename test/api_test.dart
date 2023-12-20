@@ -1,6 +1,7 @@
 import 'package:articles_app/models/article.dart';
 import 'package:articles_app/services/api_service.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -14,7 +15,7 @@ void main() {
     final response = await dio.get(
       'https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json',
       queryParameters: {
-        "api-key": "CjoIumfiqzxdTN1dG1rTg5XDzWEch31C",
+        "api-key": dotenv.env['API_KEY'],
       },
     );
     expect(response.statusCode, 200);
