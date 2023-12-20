@@ -1,14 +1,5 @@
-import 'package:articles_app/models/article.dart';
+import 'package:articles_app/app/features/articles/domain/article.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final isSearchingStateProvider = StateProvider<bool>((ref) {
-  return false;
-});
-
-final searchArticleProvider =
-    NotifierProvider<SearchNotifier, List<Article>?>(() {
-  return SearchNotifier();
-});
 
 class SearchNotifier extends Notifier<List<Article>?> {
   @override
@@ -25,10 +16,10 @@ class SearchNotifier extends Notifier<List<Article>?> {
               .contains(query.toString().toLowerCase()))
           .toList();
 
-      if (result.isEmpty) {
-        state = null;
-      } else {
+      if (result.isNotEmpty) {
         state = result;
+      } else {
+        state = null;
       }
     } else {
       state = [];

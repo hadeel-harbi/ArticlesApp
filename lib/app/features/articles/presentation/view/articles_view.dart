@@ -1,9 +1,9 @@
-import 'package:articles_app/providers/providers.dart';
-import 'package:articles_app/providers/search_provider.dart';
-import 'package:articles_app/view/widgets/drawer.dart';
-import 'package:articles_app/view/widgets/grid_view_articles.dart';
-import 'package:articles_app/view/widgets/list_view_articles.dart';
-import 'package:articles_app/view/widgets/search_bar.dart';
+import 'package:articles_app/app/features/articles/data/article_providers.dart';
+
+import 'package:articles_app/app/features/articles/presentation/widgets/drawer.dart';
+import 'package:articles_app/app/features/articles/presentation/widgets/grid_view_articles.dart';
+import 'package:articles_app/app/features/articles/presentation/widgets/list_view_articles.dart';
+import 'package:articles_app/app/features/articles/presentation/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,10 +14,10 @@ class ArticlesView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final articlesData = ref.watch(articlesProvider);
+    final articlesData = ref.watch(getArticlesProvider);
     final sortType = ref.watch(sortTypeProvider);
     final searchResult = ref.watch(searchArticleProvider);
-    final isSearching = ref.watch(isSearchingStateProvider);
+    final isSearching = ref.watch(searchBarStateProvider);
 
     return GestureDetector(
       onTap: () {
@@ -38,7 +38,7 @@ class ArticlesView extends ConsumerWidget {
             IconButton(
               onPressed: () {
                 ref
-                    .read(isSearchingStateProvider.notifier)
+                    .watch(searchBarStateProvider.notifier)
                     .update((state) => !state);
               },
               icon: const Icon(Icons.search),
@@ -88,7 +88,7 @@ class ArticlesView extends ConsumerWidget {
         body: articlesData.when(
           data: (value) {
             return RefreshIndicator(
-              onRefresh: () => ref.refresh(articlesProvider.future),
+              onRefresh: () => ref.refresh(getArticlesProvider.future),
               child: searchResult != null
                   ? sortType == SortType.list
                       ? ListViewArticles(

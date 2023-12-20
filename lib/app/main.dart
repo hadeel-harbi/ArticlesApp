@@ -1,4 +1,4 @@
-import 'package:articles_app/view/articles_view.dart';
+import 'package:articles_app/app/features/articles/presentation/view/articles_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

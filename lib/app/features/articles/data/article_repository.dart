@@ -1,9 +1,10 @@
-import 'package:articles_app/models/article.dart';
+import 'package:articles_app/app/features/articles/domain/article.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
 
-class ApiService {
-  Future<List<Article>> getArticles({int period = 1}) async {
+class ArticlesRepository {
+  Future<List<Article>> fetchArticles({int period = 1}) async {
     final dio = Dio();
     try {
       final response = await dio.get(
@@ -12,15 +13,24 @@ class ApiService {
           "api-key": dotenv.env['API_KEY'],
         },
       );
-
-      final List<Article> articles = [];
-
+      List<Article> articles = [];
       for (var element in response.data["results"]) {
         articles.add(Article.fromJson(element));
       }
+
+      //Dependency Injection
+      articlesDI(articles);
+
       return articles;
     } catch (error) {
       throw const FormatException("Error");
     }
+  }
+
+  articlesDI(List<Article> articles) {
+    if (GetIt.instance.isRegistered<List<Article>>()) {
+      GetIt.instance.unregister<List<Article>>();
+    }
+    GetIt.instance.registerSingleton<List<Article>>(articles);
   }
 }

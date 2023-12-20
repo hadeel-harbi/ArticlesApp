@@ -1,12 +1,14 @@
-import 'package:articles_app/models/article.dart';
-import 'package:articles_app/services/api_service.dart';
+import 'package:articles_app/app/features/articles/data/article_repository.dart';
+import 'package:articles_app/app/features/articles/domain/article.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Get articles', () async {
-    final List<Article> articlesList = await ApiService().getArticles();
+    final List<Article> articlesList =
+        await ArticlesRepository().fetchArticles();
     expect(articlesList.length, 20);
   });
 

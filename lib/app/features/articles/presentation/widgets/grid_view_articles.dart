@@ -1,4 +1,4 @@
-import 'package:articles_app/models/article.dart';
+import 'package:articles_app/app/features/articles/domain/article.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

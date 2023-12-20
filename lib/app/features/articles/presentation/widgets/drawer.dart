@@ -1,15 +1,14 @@
-import 'package:articles_app/providers/providers.dart';
-import 'package:articles_app/providers/search_provider.dart';
+import 'package:articles_app/app/features/articles/data/article_providers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DrawerApp extends ConsumerWidget {
-  DrawerApp({super.key});
-
-  List periodNumber = [1, 7, 30];
+  const DrawerApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List periodNumber = [1, 7, 30];
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -36,9 +35,11 @@ class DrawerApp extends ConsumerWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  ref.read(isSearchingStateProvider.notifier).state = false;
+                  ref.read(searchBarStateProvider.notifier).state = false;
+
                   ref.read(periodStateProvider.notifier).state =
                       periodNumber[index];
+
                   Navigator.pop(context);
                 },
                 child: ListTile(
